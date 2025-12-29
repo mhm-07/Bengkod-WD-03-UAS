@@ -33,17 +33,30 @@
                                 <label for="obat" class="form-label">Pilih Obat</label>
                                 <select id="select-obat" class="form-select">
                                     <option value="">-- Pilih Obat --</option>
-                                    @foreach ($obats as $obat)
-                                        <option value="{{ $obat->id }}"
-                                            data-nama="{{ $obat->nama_obat }}"
-                                            data-harga="{{ $obat->harga }}"
-                                            data-stok="{{ $obat->stok }}"
-                                            {{ (int)$obat->stok <= 0 ? 'disabled' : '' }}>
-                                            {{ $obat->nama_obat }}
-                                            - Rp{{ number_format($obat->harga) }}
-                                            (Stok: {{ $obat->stok }})
-                                        </option>
-                                    @endforeach
+                                    @php
+    $batasMenipis = 5;
+@endphp
+
+@foreach ($obats as $obat)
+    @php
+        $stok = (int) $obat->stok;
+        $isHabis = $stok <= 0;
+        $isMenipis = $stok > 0 && $stok <= $batasMenipis;
+
+        $labelStok = $isHabis ? 'Habis' : ($isMenipis ? 'Menipis' : 'Aman');
+    @endphp
+
+    <option value="{{ $obat->id }}"
+        data-nama="{{ $obat->nama_obat }}"
+        data-harga="{{ $obat->harga }}"
+        data-stok="{{ $stok }}"
+        {{ $isHabis ? 'disabled' : '' }}>
+        {{ $obat->nama_obat }}
+        - Rp{{ number_format($obat->harga) }}
+        (Stok: {{ $stok }} | {{ $labelStok }})
+    </option>
+@endforeach
+
                                 </select>
                             </div>
 

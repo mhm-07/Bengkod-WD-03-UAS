@@ -58,16 +58,24 @@
 
                                     {{-- Stok --}}
                                     <td>
-                                        @if ((int)$obat->stok == 0)
+                                        @php
+                                            $stok = (int) $obat->stok;
+                                            $batasMenipis = 5;
+                                        @endphp
+
+                                        @if ($stok <= 0)
                                             <span class="badge bg-danger px-3 py-2">Habis</span>
-                                        @elseif ((int)$obat->stok <= 5)
+                                        @elseif ($stok <= $batasMenipis)
                                             <span class="badge bg-warning text-dark px-3 py-2">
-                                                Menipis ({{ $obat->stok }})
+                                                Menipis ({{ $stok }})
                                             </span>
                                         @else
-                                            <span class="badge bg-primary px-3 py-2">{{ $obat->stok }}</span>
+                                            <span class="badge bg-success px-3 py-2">
+                                                Aman ({{ $stok }})
+                                            </span>
                                         @endif
                                     </td>
+
 
                                     {{-- Aksi --}}
                                     <td>
