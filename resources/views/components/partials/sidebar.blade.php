@@ -1,41 +1,40 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar elevation-4 sidebar-dark-primary" style="background:#1f2937; transition: width .3s;">
+    
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-        <span class="brand-text font-weight-light">Poliklinik</span>
+    <a href="#" class="brand-link text-center" style="border-bottom:1px solid #374151;">
+        <span class="brand-text font-weight-bold text-white" style="font-size:18px;">
+            <i class="fas fa-clinic-medical mr-2"></i> Poliklinik
+        </span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
 
-        <!-- Sidebar user -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <!-- User Panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center"
+             style="border-bottom:1px solid #374151;">
             <div class="image">
                 <img src="https://www.gravatar.com/avatar/2c7d9f6f281ecd3bd65ab915bca6dd57?s=100"
-                    class="img-circle elevation-2" alt="User Image">
+                     class="img-circle elevation-2" alt="User Image">
             </div>
 
-            <div class="info">
-                @auth
-                    <a href="#" class="d-block">
-                        Halo! {{ Auth::user()->nama ?? Auth::user()->name ?? 'Pengguna' }}
-                    </a>
-                @endauth
-
-                @guest
-                    <a href="#" class="d-block">Halo, Tamu</a>
-                @endguest
+            <div class="info ml-2">
+                <span class="d-block text-white font-weight-bold">
+                    👋 {{ Auth::user()->nama ?? 'Pengguna' }}
+                </span>
+                <small class="text-muted">{{ ucfirst(Auth::user()->role ?? '') }}</small>
             </div>
         </div>
 
-        <!-- Sidebar Menu -->
+        <!-- Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-sidebar flex-column">
+            <ul class="nav nav-pills nav-sidebar flex-column" style="gap:4px;">
 
-                {{-- ROLE ADMIN --}}
-                @if (request()->is('admin*'))
+                {{-- ADMIN --}}
+                @if(request()->is('admin*'))
+
                     <li class="nav-item">
                         <a href="{{ route('admin.dashboard') }}"
-                           class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard Admin</p>
                         </a>
@@ -43,42 +42,44 @@
 
                     <li class="nav-item">
                         <a href="{{ route('dokter.index') }}"
-                           class="nav-link {{ request()->routeIs('dokter.*') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('dokter.*') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-user-md"></i>
                             <p>Manajemen Dokter</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                     <a href="{{ route('pasien.index') }}" class="nav-link">
-                         <i class="nav-icon fas fa-users"></i>
+                        <a href="{{ route('pasien.index') }}"
+                           class="nav-link {{ request()->routeIs('pasien.*') ? 'active-menu' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
                             <p>Manajemen Pasien</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-  <a href="{{ route('obat.index') }}" class="nav-link">
-    <i class="nav-icon fas fa-pills"></i>
-    <p>Manajemen Obat</p>
-  </a>
-</li>
-
-
+                        <a href="{{ route('obat.index') }}"
+                           class="nav-link {{ request()->routeIs('obat.*') ? 'active-menu' : '' }}">
+                            <i class="nav-icon fas fa-pills"></i>
+                            <p>Manajemen Obat</p>
+                        </a>
+                    </li>
 
                     <li class="nav-item">
                         <a href="{{ route('polis.index') }}"
-                           class="nav-link {{ request()->routeIs('polis.*') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('polis.*') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-hospital"></i>
                             <p>Manajemen Poli</p>
                         </a>
                     </li>
+
                 @endif
 
-                {{-- ROLE PASIEN --}}
-                @if (request()->is('pasien*'))
+                {{-- PASIEN --}}
+                @if(request()->is('pasien*'))
+
                     <li class="nav-item">
                         <a href="{{ route('pasien.dashboard') }}"
-                           class="nav-link {{ request()->routeIs('pasien.dashboard') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('pasien.dashboard') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-columns"></i>
                             <p>Dashboard Pasien</p>
                         </a>
@@ -86,18 +87,20 @@
 
                     <li class="nav-item">
                         <a href="{{ route('pasien.daftar') }}"
-                           class="nav-link {{ request()->routeIs('pasien.daftar') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('pasien.daftar') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-hospital-user"></i>
                             <p>Poli</p>
                         </a>
                     </li>
+
                 @endif
 
-                {{-- ROLE DOKTER --}}
-                @if (request()->is('dokter*'))
+                {{-- DOKTER --}}
+                @if(request()->is('dokter*'))
+
                     <li class="nav-item">
                         <a href="{{ route('dokter.dashboard') }}"
-                           class="nav-link {{ request()->routeIs('dokter.dashboard') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('dokter.dashboard') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-columns"></i>
                             <p>Dashboard Dokter</p>
                         </a>
@@ -105,7 +108,7 @@
 
                     <li class="nav-item">
                         <a href="{{ route('jadwal-periksa.index') }}"
-                           class="nav-link {{ request()->routeIs('jadwal-periksa.*') ? 'active' : '' }}">
+                           class="nav-link {{ request()->routeIs('jadwal-periksa.*') ? 'active-menu' : '' }}">
                             <i class="nav-icon fas fa-calendar-check"></i>
                             <p>Jadwal Periksa</p>
                         </a>
@@ -113,25 +116,29 @@
 
                     <li class="nav-item">
                         <a href="{{ route('periksa-pasien.index') }}"
-                           class="nav-link {{ request()->routeIs('periksa-pasien.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-stethoscope"></i>
+                           class="nav-link {{ request()->routeIs('periksa-pasien.*') ? 'active-menu' : '' }}">
+                            <i class="nav-icon fas fa-calendar-check"></i>
                             <p>Periksa Pasien</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="{{ route('riwayat-pasien.index') }}"
-                           class="nav-link {{ request()->routeIs('riwayat-pasien.*') ? 'active' : '' }}">
-                            <i class="nav-icon fas fa-history"></i>
-                            <p>Riwayat Pasien</p>
-                        </a>
-                    </li>
+    <a class="nav-link {{ request()->is('dokter/riwayat-pasien*') ? 'active' : '' }}"
+       href="{{ route('riwayat-pasien.index') }}">
+        Riwayat Pasien
+    </a>
+</li>
+
+
+                    
+
                 @endif
 
-                <li class="nav-item">
+                {{-- LOGOUT --}}
+                <li class="nav-item mt-3">
                     <form method="POST" action="/logout">
                         @csrf
-                        <button type="submit" class="nav-link btn btn-danger text-left w-100">
+                        <button type="submit" class="nav-link btn-logout w-100 text-left">
                             <i class="nav-icon fas fa-sign-out-alt"></i>
                             <p>Keluar</p>
                         </button>
@@ -143,3 +150,55 @@
 
     </div>
 </aside>
+
+{{-- Custom Sidebar Styling --}}
+<style>
+    .active-menu {
+        background: #3b82f6 !important;
+        color: white !important;
+        border-radius: 8px;
+    }
+
+    .active-menu i {
+        color: white !important;
+    }
+
+    .nav-sidebar .nav-link {
+        border-radius: 6px;
+        margin: 2px 6px;
+        transition: .2s;
+    }
+
+    .nav-sidebar .nav-link:hover {
+        background:#374151;
+        color:white;
+    }
+
+    .btn-logout {
+        background:#dc2626 !important;
+        color:white !important;
+        border-radius:6px;
+    }
+
+    .btn-logout:hover {
+        background:#b91c1c !important;
+    }
+
+    /* Smooth toggle collapse */
+    .sidebar-collapse .main-sidebar {
+        width: 70px !important;
+        overflow: hidden;
+    }
+
+    .sidebar-collapse .main-sidebar .nav-link p {
+        display: none;
+    }
+
+    .sidebar-collapse .user-panel {
+        display: none;
+    }
+
+    .sidebar-collapse .brand-link span {
+        display: none;
+    }
+</style>

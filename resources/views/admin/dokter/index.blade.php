@@ -12,12 +12,19 @@
                 @endif
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="fw-bold mb-0">👨‍⚕️ Data Dokter</h1>
+                                   <form action="{{ route('dokter.index') }}" method="GET" class="mb-3 d-flex" style="max-width: 300px;">
+    <input type="text" name="search" class="form-control me-2"
+           placeholder="Cari dokter..." value="{{ request('search') }}">
+    <button class="btn btn-primary shadow-sm">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
 
+                    <h1 class="fw-bold mb-0">👨‍⚕️ Data Dokter</h1>
                     <a href="{{ route('dokter.create') }}" class="btn btn-primary shadow-sm">
                         <i class="fas fa-plus"></i> Tambah Dokter
                     </a>
-                </div>
+                </div>      
 
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-0">

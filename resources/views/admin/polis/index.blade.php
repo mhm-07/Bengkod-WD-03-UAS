@@ -1,70 +1,123 @@
 <x-layouts.app title="Data Poli">
-    @if (session('success'))
-        <div class="alert alert-success" id="alert">{{ session('success') }}</div>
+
+    {{-- Alert --}}
+    @if (session('message'))
+        <div class="alert alert-{{ session('type','success') }} alert-dismissible fade show shadow-sm mx-4 mt-3" role="alert">
+            <i class="fas fa-check-circle me-2"></i> {{ session('message') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
     @endif
 
     <div class="container-fluid px-4 mt-4">
-        <div class="row">
-            <div class="col-lg-12">
 
-                {{-- Alert flash message --}}
-                @if (session('message'))
-                    <div class="alert alert-{{ session('type', 'success') }} alert-dismissible fade show" role="alert">
-                        {{ session('message') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+        {{-- Header --}}
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <form action="{{ route('polis.index') }}" method="GET" class="mb-3 d-flex" style="max-width: 300px;">
+    <input type="text" name="search" class="form-control me-2"
+           placeholder="Cari poli..." value="{{ request('search') }}">
+    <button class="btn btn-primary shadow-sm">
+        <i class="fas fa-search"></i>
+    </button>
+</form>
 
-                <h1 class="mb-4">Data Polis</h1>
+            <h1 class="fw-bold text-dark">
+                <i class="fas fa-hospital-user text-primary"></i> Data Poli
+            </h1>
 
-                <a href="{{ route('polis.create') }}" class="btn btn-primary mb-3">
-                    <i class="fas fa-plus"></i> Tambah Poli
-                </a>
+            <a href="{{ route('polis.create') }}" class="btn btn-primary shadow-sm px-4">
+                <i class="fas fa-plus me-2"></i> Tambah Poli
+            </a>
+        </div>
+
+        {{-- Card Container --}}
+        <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-body p-0">
 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead class="thead-light">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
                             <tr>
-                                <th>Nama Poli</th>
-                                <th>Keterangan</th>
-                                <th style="width: 150px;">Aksi</th>
+                                <th class="text-secondary">Nama Poli</th>
+                                <th class="text-secondary">Keterangan</th>
+                                <th class="text-secondary text-center" style="width:150px;">Aksi</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            @forelse ($polis as $poli )
+                            @forelse ($polis as $poli)
                                 <tr>
-                                    <td>{{ $poli->nama_poli }}</td>
-                                    <td>{{ $poli->keterangan }}</td>
+                                    <td class="fw-semibold">{{ $poli->nama_poli }}</td>
+
                                     <td>
-                                        <a href="{{ route('polis.edit', $poli->id) }}" class="btn btn-sm btn-warning">
-                                            <i class="fas fa-edit"></i>Edit
+                                        <span class="badge bg-info text-dark px-3 py-2" style="font-size: 13px;">
+                                            {{ $poli->keterangan }}
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        {{-- Edit --}}
+                                        <a href="{{ route('polis.edit', $poli->id) }}"
+                                           class="btn btn-warning btn-sm shadow-sm me-1">
+                                            <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('polis.destroy', $poli->id) }}" method="POST" style="display: inline-block;">
+
+                                        {{-- Hapus --}}
+                                        <form action="{{ route('polis.destroy', $poli->id) }}"
+                                              method="POST"
+                                              class="d-inline"
+                                              onsubmit="return confirm('Yakin ingin menghapus Poli ini?')">
+
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus Poli ini ?')">
-                                                <i class="fas fa-trash"></i> Hapus
+                                            <button class="btn btn-danger btn-sm shadow-sm">
+                                                <i class="fas fa-trash"></i>
                                             </button>
+
                                         </form>
+
                                     </td>
                                 </tr>
+
                             @empty
                                 <tr>
-                                    <td class="text-center" colspan="7">
+                                    <td colspan="3" class="text-center py-4 text-muted">
+                                        <i class="fas fa-hospital-slash fa-2x d-block mb-2"></i>
                                         Belum ada Poli
                                     </td>
                                 </tr>
                             @endforelse
                         </tbody>
+
                     </table>
                 </div>
+
             </div>
         </div>
+
     </div>
+
+    {{-- Custom Hover --}}
+    <style>
+        table tbody tr:hover {
+            background-color: #f4f8ff !important;
+            transition: .2s;
+        }
+        .badge {
+            border-radius: 6px;
+        }
+    </style>
+
+    {{-- Auto Hide Alert --}}
     <script>
         setTimeout(() => {
-            const alert = document.getElementById('alert');
-            if (alert) alert.remove();
-        }, 3000);
+            const alertBox = document.querySelector('.alert');
+            if (alertBox) {
+                alertBox.classList.remove('show');
+                alertBox.classList.add('fade');
+                setTimeout(() => alertBox.remove(), 300);
+            }
+        }, 2500);
     </script>
+
 </x-layouts.app>

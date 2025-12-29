@@ -1,66 +1,102 @@
 <x-layouts.app title="Tambah Obat">
+
     <div class="container-fluid px-4 mt-4">
+
+        {{-- Header --}}
+        <div class="d-flex align-items-center mb-4">
+            <h1 class="fw-bold text-dark">
+                <i class="fas fa-plus-circle text-primary"></i> Tambah Obat
+            </h1>
+        </div>
+
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <h1 class="mb-4">Tambah Obat</h1>
 
-                <div class="card">
-                    <div class="card-body">
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-body p-4">
+
                         <form action="{{ route('obat.store') }}" method="POST">
                             @csrf
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label for="nama_obat" class="form-label">Nama Obat <span class="text-danger">*</span></label>
-                                        <input type="text"
-                                            class="form-control @error('nama_obat') is-invalid @enderror"
-                                            id="nama_obat" name="nama_obat"
-                                            value="{{ old('nama_obat') }}" required>
-                                        @error('nama_obat')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                {{-- Nama Obat --}}
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Nama Obat <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           name="nama_obat"
+                                           class="form-control shadow-sm @error('nama_obat') is-invalid @enderror"
+                                           placeholder="Contoh: Paracetamol"
+                                           value="{{ old('nama_obat') }}"
+                                           required>
+
+                                    @error('nama_obat')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
-                                <div class="col-md-6">
-                                    <div class="form-group mb-3">
-                                        <label for="kemasan" class="form-label">Kemasan</label>
-                                        <input type="text" name="kemasan" id="kemasan"
-                                            class="form-control @error('kemasan') is-invalid @enderror"
-                                            value="{{ old('kemasan') }}" placeholder="Contoh: Strip, Botol, Tube">
-                                        @error('kemasan')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                {{-- Kemasan --}}
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Kemasan</label>
+                                    <input type="text"
+                                           name="kemasan"
+                                           class="form-control shadow-sm @error('kemasan') is-invalid @enderror"
+                                           placeholder="Contoh: Strip, Botol, Tube"
+                                           value="{{ old('kemasan') }}">
+
+                                    @error('kemasan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="harga" class="form-label">Harga <span class="text-danger">*</span></label>
-                                <input type="number" name="harga" id="harga"
-                                    class="form-control @error('harga') is-invalid @enderror"
-                                    value="{{ old('harga') }}" required min="0" step="1">
+                            {{-- Harga --}}
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Harga <span class="text-danger">*</span></label>
+                                <input type="number"
+                                       name="harga"
+                                       class="form-control shadow-sm @error('harga') is-invalid @enderror"
+                                       placeholder="Masukkan harga obat..."
+                                       value="{{ old('harga') }}"
+                                       required min="0" step="1">
+
                                 @error('harga')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="form-group mt-4">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Simpan
+                            {{-- Tombol --}}
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-success px-4 shadow-sm">
+                                    <i class="fas fa-save me-2"></i> Simpan
                                 </button>
 
-                                <a href="{{ route('obat.index') }}" class="btn btn-secondary">
-                                    <i class="fas fa-arrow-left"></i> Kembali
+                                <a href="{{ route('obat.index') }}" 
+                                   class="btn btn-outline-secondary px-4 shadow-sm ms-2">
+                                    <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
                             </div>
 
                         </form>
+
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
+
+    {{-- Input Styling --}}
+    <style>
+        input.form-control {
+            border-radius: 8px;
+            padding: 10px 12px;
+        }
+        input.form-control:focus {
+            box-shadow: 0 0 0 .15rem rgba(66, 133, 244, .4);
+        }
+        label.form-label {
+            font-size: 15px;
+        }
+    </style>
+
 </x-layouts.app>

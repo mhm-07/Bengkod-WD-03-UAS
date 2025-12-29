@@ -1,63 +1,71 @@
-{{-- <h2>Login</h2> --}}
-{{--
-@if ($errors->any())
-    <p style="color:red">{{ $errors->first() }}</p>
-@endif --}}
-
-{{-- <form method="POST" action="{{ route('login') }}">
-    @csrf
-    <label>Email:</label><br>
-    <input type="email" name="email" required><br>
-
-    <label>Password:</label><br>
-    <input type="password" name="password" required><br><br>
-
-    <button type="submit">Login</button>
-</form> --}}
-
 <x-layouts.guest title="Login">
-    <div class="login-box d-flex flex-column justify-content-center align-items-center w-100 vh-100">
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center text-lg">
-                <b>Poli</b>klinik
+    <style>
+        body {
+            background: linear-gradient(135deg, #e3f2fd, #ffffff);
+        }
+        .auth-wrapper {
+            min-height: 100vh;
+        }
+        .auth-card {
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+        .auth-header {
+            border-bottom: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .form-control {
+            border-radius: 10px;
+        }
+        .btn-primary {
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+    <div class="auth-wrapper d-flex justify-content-center align-items-center">
+        <div class="card auth-card card-outline card-primary" style="width: 380px;">
+            <div class="card-header text-center auth-header">
+                <span style="color:#0d6efd">Poli</span>klinik
             </div>
+
             <div class="card-body">
-                <p class="login-box-msg">Login ke akun anda</p>
+                <p class="text-center text-muted mb-4">Silakan login untuk melanjutkan</p>
+
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
+
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Email" name="email">
+                        <input type="text" class="form-control" placeholder="Email" name="email" required>
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                         </div>
                     </div>
+
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password" name="password">
+                        <input type="password" class="form-control" placeholder="Password" name="password" required>
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
                         </div>
                     </div>
 
                     @if ($errors->any())
-                        <p class="alert alert-danger">{{ $errors->first() }}</p>
+                        <div class="alert alert-danger py-2">{{ $errors->first() }}</div>
                     @endif
 
-                    <div class="row">
-                        <div class="col-12">
-                            <button type="submit" class="btn btn-primary btn-block" name="submit">Login</button>
-                        </div>
-                    </div>
-                </form>
+                    <button class="btn btn-primary btn-block mt-3">Login</button>
 
-                <div class="row mt-3 justify-content-center">
-                    <div class="col-12 text-center">
-                        <span>Belum punya akun? <a href="{{ route('register') }}">Register</a></span>
-                    </div>
-                </div>
+                    <p class="text-center mt-3">
+                        Belum punya akun?
+                        <a href="{{ route('register') }}">Register</a>
+                    </p>
+                </form>
             </div>
         </div>
     </div>

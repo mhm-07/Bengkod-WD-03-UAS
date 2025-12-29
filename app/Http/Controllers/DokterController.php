@@ -12,12 +12,22 @@ class DokterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        // dimana role adalah dokter
-        $dokters = User::where('role', 'dokter')->with('poli')->get();
-        return view('admin.dokter.index', compact('dokters'));
-    }
+   public function index(Request $request)
+{
+    $search = $request->search;
+
+    $dokters = User::where('role', 'dokter')
+        ->with('poli')
+        ->when($search, function ($q) use ($search) {
+            $q->where('nama', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('no_hp', 'like', "%$search%");
+        })
+        ->get();
+
+    return view('admin.dokter.index', compact('dokters'));
+}
+
 
     /**
      * Show the form for creating a new resource.

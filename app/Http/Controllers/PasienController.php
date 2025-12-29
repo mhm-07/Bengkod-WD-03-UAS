@@ -8,10 +8,21 @@ use Illuminate\Validation\Rule;
 
 class PasienController extends Controller
 {
-    public function index() {
-        $pasiens = User::where('role','pasien')->get();
-        return view('admin.pasien.index', compact('pasiens'));
-    }
+    public function index(Request $request) {
+    $search = $request->search;
+
+    $pasiens = User::where('role', 'pasien')
+        ->when($search, function ($q) use ($search) {
+            $q->where('nama', 'like', "%$search%")
+              ->orWhere('email', 'like', "%$search%")
+              ->orWhere('no_hp', 'like', "%$search%")
+              ->orWhere('no_ktp', 'like', "%$search%");
+        })
+        ->get();
+
+    return view('admin.pasien.index', compact('pasiens'));
+}
+
 
     public function create() {
         return view('admin.pasien.create');

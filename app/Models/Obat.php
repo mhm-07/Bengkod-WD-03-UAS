@@ -9,10 +9,12 @@ class Obat extends Model
     protected $table = 'obat';
 
     protected $fillable = [
-        'nama_obat',
-        'kemasan',
-        'harga',
+    'nama_obat',
+    'kemasan',
+    'harga',
+    'stok',
     ];
+
 
     public function detailPeriksas(){
         return $this->hasMany(DetailPeriksa::class,'id_obat');

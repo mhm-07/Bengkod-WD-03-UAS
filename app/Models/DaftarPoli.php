@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\JadwalPeriksa;
+use App\Models\Periksa;
 
 class DaftarPoli extends Model
 {
@@ -12,18 +15,24 @@ class DaftarPoli extends Model
         'id_pasien',
         'id_jadwal',
         'keluhan',
-        'no)antrian'
+        'no_antrian'
     ];
 
-    public function pasien(){
-        return $this -> belongsTo(User::class, 'id_pasien');
+    // ✅ pasien
+    public function pasien()
+    {
+        return $this->belongsTo(User::class, 'id_pasien');
     }
 
-    public function jadwalPeriksa(){
-        return $this -> belongsTo(JadwalPeriksa::class, 'id_jadwal');
+    // ✅ jadwal dokter
+    public function jadwalPeriksa()
+    {
+        return $this->belongsTo(JadwalPeriksa::class, 'id_jadwal');
     }
 
-    public function periksas(){
+    // ✅ hasil pemeriksaan
+    public function periksas()
+    {
         return $this->hasMany(Periksa::class, 'id_daftar_poli');
     }
 }

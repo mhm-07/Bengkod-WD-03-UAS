@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use PDO;
 
 class PoliController extends Controller {
-    public function index() {
-        $polis = Poli::all();
-        return view('admin.polis.index', compact('polis'));
-    }
+    public function index(Request $request) {
+    $search = $request->search;
+
+    $polis = Poli::when($search, function ($query) use ($search) {
+            $query->where('nama_poli', 'like', "%$search%")
+                  ->orWhere('keterangan', 'like', "%$search%");
+        })
+        ->get();
+
+    return view('admin.polis.index', compact('polis'));
+}
+
 
     public function create() {
         return view('admin.polis.create');
